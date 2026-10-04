@@ -24,35 +24,35 @@
 
 ## Структура репозитория
 
-├── my_robot_bringup
-│   ├── CMakeLists.txt
-│   ├── config
-│   │   └── slam_params.yaml
-│   ├── launch
-│   │   └── my_robot_gazebo.launch.xml
-│   ├── package.xml
-│   ├── rviz
-│   │   └── urdf_config.rviz
-│   └── worlds
-│       └── test_world.world
-├── my_robot_description
-│   ├── CMakeLists.txt
-│   ├── config
-│   │   └── config.rviz
-│   ├── launch
-│   │   ├── display.launch.py
-│   │   └── display.launch.xml
-│   ├── package.xml
-│   └── urdf
-│       ├── camera.xacro
-│       ├── common_properties.xacro
-│       ├── gps_module.xacro
-│       ├── mobile_base_gazebo.xacro
-│       ├── mobile_base.xacro
-│       ├── my_robot.urdf.xacro
-│       └── sonic_radar.xacro
-├── Dockerfile
-├── requirements.txt
-├── docker-compose.yaml
-└── README.md
+├── my_robot_bringup  
+│   ├── CMakeLists.txt  
+│   ├── config  
+│   │   └── slam_params.yaml  
+│   ├── launch  
+│   │   └── my_robot_gazebo.launch.xml  
+│   ├── package.xml  
+│   ├── rviz  
+│   │   └── urdf_config.rviz  
+│   └── worlds  
+│       └── test_world.world  
+├── my_robot_description  
+│   ├── CMakeLists.txt  
+│   ├── config  
+│   │   └── config.rviz  
+│   ├── launch  
+│   │   ├── display.launch.py  
+│   │   └── display.launch.xml  
+│   ├── package.xml  
+│   └── urdf  
+│       ├── camera.xacro  
+│       ├── common_properties.xacro  
+│       ├── gps_module.xacro  
+│       ├── mobile_base_gazebo.xacro  
+│       ├── mobile_base.xacro  
+│       ├── my_robot.urdf.xacro  
+│       └── sonic_radar.xacro  
+├── Dockerfile  
+├── requirements.txt  
+├── docker-compose.yaml  
+└── README.md  
 
