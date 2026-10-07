@@ -2,6 +2,8 @@
 
 Автономный мобильный робот на ROS 2. Дифференциальный привод, depth-камера (Orbbec Astra), ультразвуковые датчики, GPS. SLAM, навигация, симуляция в Gazebo. Целевое железо — Raspberry Pi 5.
 
+![demo](data/demo_output/cams2.gif)
+
 ## Стек
 
 - **ROS 2 Humble** (Ubuntu 22.04)
