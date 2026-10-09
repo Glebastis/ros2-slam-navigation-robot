@@ -2,3 +2,9 @@
 build/* 
 install/* 
 log/
+tools/*
+my_robot_bringup/config/cartographer*
+diff.txt
+M1_M5_REPORT.md
+README_попытки и исследования.md
+SLAM_FIX_NOTES.md

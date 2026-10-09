@@ -1,64 +1,53 @@
 <launch>
-    <let name="urdf_path" 
-         value="$(find-pkg-share my_robot_description)/urdf/my_robot.urdf.xacro" />
+    <arg name="gui" default="true" />
+    <arg name="rviz" default="true" />
+    <arg name="start_slam" default="true" />
+    <arg name="scan_topic" default="/scan_lidar" />
+    <arg name="urdf_args" default="with_depth_cameras:=false" />
+    <arg name="spawn_x" default="0.0" />
+    <arg name="spawn_y" default="0.0" />
+    <arg name="spawn_yaw" default="0.0" />
+    <arg name="spawn" default="true" />
+    <arg name="spawn_delay" default="8.0" />
 
+    <let name="urdf_path"
+         value="$(find-pkg-share my_robot_description)/urdf/my_robot.urdf.xacro" />
     <let name="rviz_config_path"
          value="$(find-pkg-share my_robot_bringup)/rviz/urdf_config.rviz" />
 
     <include file="$(find-pkg-share gazebo_ros)/launch/gazebo.launch.py">
           <arg name="world" value="$(find-pkg-share my_robot_bringup)/worlds/test_world.world" />
+          <arg name="gui" value="$(var gui)" />
     </include>
 
     <timer period="3.0">
         <node pkg="robot_state_publisher" exec="robot_state_publisher">
-            <param name="robot_description" value="$(command 'xacro $(var urdf_path)')" />
+            <param name="robot_description"
+                   value="$(command 'xacro $(var urdf_path) $(var urdf_args)')" />
             <param name="use_sim_time" value="true" />
         </node>
     </timer>
 
-    <timer period="4.0">
+    <timer period="$(var spawn_delay)" if="$(var spawn)">
         <node pkg="gazebo_ros" exec="spawn_entity.py"
-              args="-topic robot_description -entity my_robot">
+              args="-topic robot_description -entity my_robot -x $(var spawn_x) -y $(var spawn_y) -z 0.1 -Y $(var spawn_yaw) -timeout 120">
             <param name="use_sim_time" value="true" />
-        </node>
-    </timer>
-
-    <timer period="5.0">
-        <node pkg="depthimage_to_laserscan" exec="depthimage_to_laserscan_node"
-              name="depthimage_to_laserscan" output="screen">
-            <remap from="depth" to="/depth_camera/depth/image_raw" />
-            <remap from="depth_camera_info" to="/depth_camera/depth/camera_info" />
-            <remap from="scan" to="/scan" />
-            <param name="use_sim_time" value="true" />
-            <param name="output_frame" value="footprint_link" />
-            <param name="scan_height" value="100" />
-            <param name="scan_time" value="0.033" />
-            <param name="range_min" value="0.05" />
-            <param name="range_max" value="3.0" />
         </node>
     </timer>
 
     <let name="slam_params_path"
          value="$(find-pkg-share my_robot_bringup)/config/slam_params.yaml" />
 
-    <timer period="6.0">
+    <timer period="6.0" if="$(var start_slam)">
         <node pkg="slam_toolbox" exec="async_slam_toolbox_node"
               name="slam_toolbox" output="screen">
             <param from="$(var slam_params_path)" />
+            <param name="scan_topic" value="$(var scan_topic)" />
             <param name="use_sim_time" value="true" />
         </node>
     </timer>
 
-      <!-- <timer period="6.0">
-      <node pkg="slam_toolbox" exec="async_slam_toolbox_node"
-            name="slam_toolbox" output="screen"
-            args="ros-args log-level debug">
-            <param from="$(var slam_params_path)" />
-            <param name="use_sim_time" value="true" />
-      </node>
-      </timer> -->
-
-    <timer period="6.0">
+    <timer period="6.0" if="$(var rviz)">
         <node name="rviz2" exec="rviz2" output="screen"
               args="-d $(var rviz_config_path)">
             <param name="use_sim_time" value="true" />
